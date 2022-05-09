@@ -67,7 +67,7 @@ return {
 }
 ,
 methods: {
-...mapActions([]),
+// ...mapActions([]),
 closeModal() {
     this.isModalVisible = false;
 },

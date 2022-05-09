@@ -1,5 +1,14 @@
 <template>
-    checkout
+   <div>
+<h2>Checkout</h2>
+<!--1) check if logged in
+    2) field with products
+    3) field with address (shipping-billing with checkbox)
+    4) buttons
+-->
+
+       
+   </div>
 
 
 
@@ -7,7 +16,7 @@
 
 <script>
 export default {
-    name: "Checkout.vue"
+    name: "Checkout"
 }
 </script>
 
