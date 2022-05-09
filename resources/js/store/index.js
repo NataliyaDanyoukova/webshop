@@ -96,13 +96,13 @@ export default createStore({
     },
 
     actions: {
-        async login({ commit }, user) {
-            await axios.get('http://localhost/sanctum/csrf-cookie');
-            let { data } = await axios.post('http://localhost/api/login', user);
-            commit('SET_USER', data)
-
-            sessionStorage.user = JSON.stringify(data);
-        },
+        // async login({ commit }, user) {
+        //     await axios.get('http://localhost/sanctum/csrf-cookie');
+        //     let { data } = await axios.post('http://localhost/api/login', user);
+        //     commit('SET_USER', data)
+        //
+        //     sessionStorage.user = JSON.stringify(data);
+        // },
         /*authentication */
         // getUser({commit}) {
         //     return axios

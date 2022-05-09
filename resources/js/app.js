@@ -9,6 +9,7 @@ import HeaderComponent from "./components/HeaderComponent";
 import ProductCard from "./components/ProductCard";
 import ProductView from "./components/ProductView";
 import router from "./router/router";
+import store from "./store/index";
 import testComponent from "./components/testComponent";
 
 
@@ -31,7 +32,7 @@ app.component('testComponent', testComponent);
 app.component('ProductCard', ProductCard);
 app.component('ProductView', ProductView)
 app.use(router);
-//app.use(store);
+app.use(store);
 //app.use(axios);
 
 app.mount('#app');

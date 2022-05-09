@@ -38,17 +38,18 @@
                     <li><a href="#">home</a></li>
                     <li><a href="#">shop</a></li>
                     <li><a href="#">promotion</a></li>
-                    <li><a href="#">pages</a></li></ul>
+                    <li><a href="#">pages</a></li>
                     <li class="checkout">
 
-{{--                        <router-link to="/cart">--}}
-{{--                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>--}}
-{{--                            <span id="checkout_items" class="checkout_items"> </span>--}}
-{{--                        </router-link>--}}
+                        <router-link to="/cart">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            <span id="checkout_items" class="checkout_items"> </span>
+                        </router-link>
 
                     </li>
+                </ul>
                 </nav>
-{{--       {{ counterCart }}-         --}}
+{{--       {{ counterCart }}        --}}
 {{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
 {{--                    {{ config('app.name', 'shop') }}--}}
 {{--                </a>--}}
@@ -111,7 +112,7 @@
         <p>app.blade</p>
         @yield('content')
     </main>
-<product-view></product-view>
+
 </div>
 
 

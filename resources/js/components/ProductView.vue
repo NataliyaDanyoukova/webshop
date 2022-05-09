@@ -1,6 +1,5 @@
 <template>
 
-productVIew hier
     <div class="row">
         <div class="container product_section_container">
 
@@ -78,7 +77,6 @@ productVIew hier
 
 <script>
 import productService from "../Services/productService";
-
 
 
 export default {
