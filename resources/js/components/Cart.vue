@@ -25,7 +25,7 @@
             <div class="col-6 m-3 ">
                 <div class="row p-2 d-flex justify-content-end">
                     <span class="col">Total </span>
-                    <span class="total_cart col"> {{ this.$store.getters.cartTotal }} </span>
+                    <span class="total_cart col"> {{ cartTotal }} </span>
 
                 </div>
                 <div class="row p-2">
@@ -76,6 +76,11 @@ export default {
             let vat = parseFloat(this.vatAmount)
             return (vat + total).toFixed(2)
 
+        },
+        cartTotal() {
+            let amount = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            //amount = (amount / 100);
+            return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
         }
     },
     methods: {}

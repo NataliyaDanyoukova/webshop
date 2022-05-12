@@ -6,11 +6,11 @@
 
 
             <div class="d-flex align-items-center">
-                <span class="minus col" @click="decrement(product)"><i class="fa fa-minus"></i></span>
+                <span class="minus col" @click="decrement(product)"><i class="fa fa-minus">-</i></span>
                 <span class="col-1 ">
                             {{ product.quantity }}
                         </span>
-                <span class="plus col" @click="increment(product)"><i class="fa fa-plus"></i></span>
+                <span class="plus col" @click="increment(product)"><i class="fa fa-plus">+</i></span>
             </div>
             <span class=" col d-flex align-items-center ml-5" @click="removeItemFromCart(product)"><i class="fa fa-trash-o"></i></span>
 
