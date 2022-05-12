@@ -23,8 +23,11 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@stripe/stripe-js": "^1.29.0",
+        "@vue-stripe/vue-stripe": "^4.4.2",
         "autoprefixer": "10.4.5",
         "font-awesome": "^4.7.0",
-        "vue-router": "^4.0.15"
+        "vue-router": "^4.0.15",
+        "vuex": "^4.0.2"
     }
 }
