@@ -25,7 +25,7 @@
 
                                 <router-link to="/cart">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                    <span id="checkout_items" class="checkout_items">{{ counterCart }} </span>
+                                    <span id="checkout_items" class="checkout_items">{{ cartQuantity }} </span>
                                 </router-link>
                             </li>
                         </ul>
@@ -52,10 +52,9 @@
 export default {
     name: "HeaderComponent",
     computed: {
-        counterCart() {
-            return this.$store.getters['cart'].length;
-           // return this.$store.getters.quantity;
-        }
+        cartQuantity() {
+            return this.$store.state.cart.reduce((acc, item) => acc + item.quantity, 0);
+        },
     }
 }
 </script>
