@@ -24051,7 +24051,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var _yield$_this3$stripe$, paymentMethod, error, amount;
+        var _yield$_this3$stripe$, paymentMethod, error, clientSecret, amount;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
@@ -24076,20 +24076,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _yield$_this3$stripe$ = _context3.sent;
                 paymentMethod = _yield$_this3$stripe$.paymentMethod;
                 error = _yield$_this3$stripe$.error;
+                clientSecret = _this3.confirmCardSetup().client_secret; // const {setupIntent} = await this.stripe.confirmCardSetup(
+                //     clientSecret, {
+                //         payment_method: {
+                //             card: 'cardElement',
+                //             billing_details: {name: this.customer.last_name}
+                //         }
+                //     });
 
                 if (error) {
                   _this3.paymentProcessing = false;
                   console.error(error);
                 } else {
-                  console.log(setupIntent);
+                  // console.log(setupIntent);
                   console.log(paymentMethod);
                   _this3.customer.payment_method_id = paymentMethod.id;
                   amount = _this3.$store.state.cart.reduce(function (acc, item) {
                     return acc + item.price * item.quantity;
                   }, 0);
                   _this3.customer.amount = amount * 100;
-                  _this3.customer.cart = JSON.stringify(_this3.$store.state.cart);
-                  _this3.customer.setup_intent = setupIntent.paymentMethod;
+                  _this3.customer.cart = JSON.stringify(_this3.$store.state.cart); // this.customer.setup_intent = setupIntent.paymentMethod;
+
                   axios.post('/api/purchase', _this3.customer).then(function (response) {
                     _this3.paymentProcessing = false;
                     console.log(response);
@@ -24107,7 +24114,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
 
-              case 7:
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -24115,6 +24122,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
+    //},
     submitPayment: function submitPayment() {
       this.stripe.confirmCardSetup(this.intentToken.client_secret, {
         payment_method: {
@@ -24124,7 +24132,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }
       });
-    }
+    } // ).then(response => {
+    //     console.log(response.setupIntent.payment_method)
+    //   //  this.card.clear()
+    // }
+    //}
+
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['getProductsInCart'])), {}, {
     cart: function cart() {

@@ -36,7 +36,7 @@ class UserController extends Controller
 
         try {
             $payment = $user->charge(
-                $request->input('amount')*100,
+                $request->input('amount'),
                 $request->input('payment_method_id')
             );
 
