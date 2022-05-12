@@ -80,6 +80,11 @@
         <router-link to="/"></router-link>
         <cart-icon class="justify-content-center"></cart-icon>
         <router-view></router-view>
+
+{{--        <router-link to="/cart" >--}}
+{{--                        <i class="fa fa-shopping-cart" aria-hidden="true">Cart_welcome</i>--}}
+{{--                        <span id="checkout_items" class="checkout_items">45</span>--}}
+{{--                    </router-link>--}}
     </div>
 
 

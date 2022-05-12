@@ -27,27 +27,34 @@
 <body>
 <div id="app">
 
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <div class="logo_container">
-                    <a href="/">Hair & <span>Beauty</span></a>
-                </div>
 
-                <nav class="navbar">
-                <ul class="navbar_menu align-content-center">
-                    <li><a href="#">home</a></li>
-                    <li><a href="#">shop</a></li>
-                    <li><a href="#">promotion</a></li>
-                    <li><a href="#">pages</a></li>
-                    <li class="checkout">
 
-                        <router-link to="/cart">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                            <span id="checkout_items" class="checkout_items"> </span>
-                        </router-link>
+                <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+                    <div class="container">
+                        <div class="logo_container">
+                            <a href="/">Hair & <span>Beauty</span></a>
+                        </div>
 
-                    </li>
-                </ul>
+                        <nav class="navbar">
+                        <ul class="navbar_menu align-content-center">
+                            <li><a href="/">home</a></li>
+                            <li><a href="/">shop</a></li>
+                            <li><a href="/">promotion</a></li>
+                            <li><a href="/">pages</a></li>
+                            <li class="checkout">
+                                <cart-icon></cart-icon>
+
+                            </li>
+
+                        </ul>
+
+{{--                            <router-link to="/cart">--}}
+{{--                        <i class="fa fa-shopping-cart" aria-hidden="true">cart</i>--}}
+{{--                        <span id="checkout_items" class="checkout_items">  </span>--}}
+
+
+{{--                    </router-link>--}}
+
                 </nav>
 {{--       {{ counterCart }}        --}}
 {{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
