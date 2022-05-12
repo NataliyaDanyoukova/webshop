@@ -20,18 +20,18 @@ class ProductSeeder extends Seeder
         /*Hairproducts*/
         DB::table('products')->insert([
             'product_name' => 'stylingProduct',
-            'price' => 10.99,
+            'price' => 10,
             'image' => 'hair_wax.jpg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('products')->insert([
             'product_name' => 'coloringProduct',
-            'price' => 9.99,
+            'price' => 5,
             'image' => 'hair_coloring.jpg',
             'created_at' => date('Y-m-d H:i:s')]);
         DB::table('products')->insert([
             'product_name' => 'HairCareProduct',
-            'price' => 8.99,
+            'price' => 20,
             'image' => 'hair_shampoo.jpg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
@@ -39,13 +39,13 @@ class ProductSeeder extends Seeder
         /*Skincare*/
         DB::table('products')->insert([
             'product_name' => 'ScinCare Body',
-            'price' => 5.99,
+            'price' => 5,
             'image' => 'skincare_body_butter.jpeg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('products')->insert([
             'product_name' => 'ScinCare Face',
-            'price' => 15.99,
+            'price' => 15,
             'image' => 'skincare_creme.jpeg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
@@ -53,19 +53,19 @@ class ProductSeeder extends Seeder
         /*Make-up*/
         DB::table('products')->insert([
             'product_name' => 'Eyes',
-            'price' => 12.99,
+            'price' => 10,
             'image' => 'makeup_eye.jpg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('products')->insert([
             'product_name' => 'Lipstick',
-            'price' => 25.99,
+            'price' => 25,
             'image' => 'makeup_lipstick.jpg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('products')->insert([
             'product_name' => 'Powder',
-            'price' => 25.99,
+            'price' => 30,
             'image' => 'makeup_powder.jpg',
             'created_at' => date('Y-m-d H:i:s')
         ]);
