@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +21,33 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Auth::routes();
-
+//
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+//
 Route::get('/{vue_capture?}', function(){
     return view('welcome');
 }) ->where('vue_capture', '[\/\w\.-]*');
+
+//Route::get('/getSession', [StripeController::class, 'getSession']);
+
+Route::get('/stripe', [StripeController::class, 'index']);
+Route::get('/getSession', [StripeController::class, 'getSession']);
+Route::get('/checkout', [StripeController::class, 'checkout']);
+Route::get('/users/setup-intent', [UserController::class, 'getSetupIntent']);
+
+
+Route::get('/getStripe', function(){
+    return view('wel');});
+
+// Route::get('/checkout', [StripeController::class, 'checkout']);
+
+
+
+
+
+
+
+//Route::get('/user/setup-intent', 'UserController@getSetupIntent');
+//Route::post('/user/payments', 'UserController@postPaymentMethods');
+//
+//Route::get('/user/payment-methods', 'UserController@getPaymentMethods');
