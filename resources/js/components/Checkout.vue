@@ -224,16 +224,6 @@ export default {
 
         },
 
-        async confirmCardSetup() {
-            const {setupIntent, error} = await this.stripe.confirmCardSetup(
-                clientSecret, {
-                    payment_method: {
-                        card: cardElement,
-                        billing_details: {name: this.customer.last_name}
-                    }
-                });
-        },
-
         async processPayment() {
             this.paymentProcessing = true;
 
@@ -252,26 +242,16 @@ export default {
                     }
                 }
             );
-            const clientSecret  = this.confirmCardSetup().client_secret
 
-            // const {setupIntent} = await this.stripe.confirmCardSetup(
-            //     clientSecret, {
-            //         payment_method: {
-            //             card: 'cardElement',
-            //             billing_details: {name: this.customer.last_name}
-            //         }
-            //     });
             if (error) {
                 this.paymentProcessing = false;
                 console.error(error);
             } else {
-               // console.log(setupIntent);
                 console.log(paymentMethod);
                 this.customer.payment_method_id = paymentMethod.id;
                 let amount = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
                 this.customer.amount = amount * 100;
                 this.customer.cart = JSON.stringify(this.$store.state.cart);
-               // this.customer.setup_intent = setupIntent.paymentMethod;
                 axios.post('/api/purchase', this.customer)
                     .then((response) => {
                         this.paymentProcessing = false;
@@ -288,21 +268,16 @@ export default {
         },
 
         //},
-        submitPayment() {
-            this.stripe.confirmCardSetup(
-                this.intentToken.client_secret, {
-                    payment_method: {
-                        card: cardElement,
-                        billing_details: {name: this.customer.last_name}
-                    }
-                })
-        }
+        // submitPayment() {
+        //     this.stripe.confirmCardSetup(
+        //         this.intentToken.client_secret, {
+        //             payment_method: {
+        //                 card: cardElement,
+        //                 billing_details: {name: this.customer.last_name}
+        //             }
+        //         })
+        // }
 
-// ).then(response => {
-//     console.log(response.setupIntent.payment_method)
-//   //  this.card.clear()
-// }
-//}
 
 },
 computed: {

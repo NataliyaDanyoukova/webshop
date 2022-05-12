@@ -24014,129 +24014,81 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     totalPrice: function totalPrice(price) {
       return this.product.quantity * price;
     },
-    confirmCardSetup: function confirmCardSetup() {
+    processPayment: function processPayment() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var _yield$_this2$stripe$, setupIntent, error;
+        var _yield$_this2$stripe$, paymentMethod, error, amount;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _this2.stripe.confirmCardSetup(clientSecret, {
-                  payment_method: {
-                    card: cardElement,
-                    billing_details: {
-                      name: _this2.customer.last_name
+                _this2.paymentProcessing = true;
+                _context2.next = 3;
+                return _this2.stripe.createPaymentMethod('card', _this2.cardElement, {
+                  billing_details: {
+                    name: _this2.customer.first_name + ' ' + _this2.customer.last_name,
+                    email: _this2.customer.email,
+                    address: {
+                      line1: _this2.customer.address,
+                      city: _this2.customer.city,
+                      state: _this2.customer.state,
+                      postal_code: _this2.customer.zip_code
                     }
                   }
                 });
 
-              case 2:
+              case 3:
                 _yield$_this2$stripe$ = _context2.sent;
-                setupIntent = _yield$_this2$stripe$.setupIntent;
+                paymentMethod = _yield$_this2$stripe$.paymentMethod;
                 error = _yield$_this2$stripe$.error;
 
-              case 5:
+                if (error) {
+                  _this2.paymentProcessing = false;
+                  console.error(error);
+                } else {
+                  console.log(paymentMethod);
+                  _this2.customer.payment_method_id = paymentMethod.id;
+                  amount = _this2.$store.state.cart.reduce(function (acc, item) {
+                    return acc + item.price * item.quantity;
+                  }, 0);
+                  _this2.customer.amount = amount * 100;
+                  _this2.customer.cart = JSON.stringify(_this2.$store.state.cart);
+                  axios.post('/api/purchase', _this2.customer).then(function (response) {
+                    _this2.paymentProcessing = false;
+                    console.log(response);
+
+                    _this2.$store.commit('updateOrder', response.data);
+
+                    _this2.$store.dispatch('clearCart');
+
+                    _this2.$router.push({
+                      name: 'order.summary'
+                    });
+                  })["catch"](function (error) {
+                    _this2.paymentProcessing = false;
+                    console.error(error);
+                  });
+                }
+
+              case 7:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
-    },
-    processPayment: function processPayment() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var _yield$_this3$stripe$, paymentMethod, error, clientSecret, amount;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _this3.paymentProcessing = true;
-                _context3.next = 3;
-                return _this3.stripe.createPaymentMethod('card', _this3.cardElement, {
-                  billing_details: {
-                    name: _this3.customer.first_name + ' ' + _this3.customer.last_name,
-                    email: _this3.customer.email,
-                    address: {
-                      line1: _this3.customer.address,
-                      city: _this3.customer.city,
-                      state: _this3.customer.state,
-                      postal_code: _this3.customer.zip_code
-                    }
-                  }
-                });
-
-              case 3:
-                _yield$_this3$stripe$ = _context3.sent;
-                paymentMethod = _yield$_this3$stripe$.paymentMethod;
-                error = _yield$_this3$stripe$.error;
-                clientSecret = _this3.confirmCardSetup().client_secret; // const {setupIntent} = await this.stripe.confirmCardSetup(
-                //     clientSecret, {
-                //         payment_method: {
-                //             card: 'cardElement',
-                //             billing_details: {name: this.customer.last_name}
-                //         }
-                //     });
-
-                if (error) {
-                  _this3.paymentProcessing = false;
-                  console.error(error);
-                } else {
-                  // console.log(setupIntent);
-                  console.log(paymentMethod);
-                  _this3.customer.payment_method_id = paymentMethod.id;
-                  amount = _this3.$store.state.cart.reduce(function (acc, item) {
-                    return acc + item.price * item.quantity;
-                  }, 0);
-                  _this3.customer.amount = amount * 100;
-                  _this3.customer.cart = JSON.stringify(_this3.$store.state.cart); // this.customer.setup_intent = setupIntent.paymentMethod;
-
-                  axios.post('/api/purchase', _this3.customer).then(function (response) {
-                    _this3.paymentProcessing = false;
-                    console.log(response);
-
-                    _this3.$store.commit('updateOrder', response.data);
-
-                    _this3.$store.dispatch('clearCart');
-
-                    _this3.$router.push({
-                      name: 'order.summary'
-                    });
-                  })["catch"](function (error) {
-                    _this3.paymentProcessing = false;
-                    console.error(error);
-                  });
-                }
-
-              case 8:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    //},
-    submitPayment: function submitPayment() {
-      this.stripe.confirmCardSetup(this.intentToken.client_secret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            name: this.customer.last_name
-          }
-        }
-      });
-    } // ).then(response => {
-    //     console.log(response.setupIntent.payment_method)
-    //   //  this.card.clear()
+    } //},
+    // submitPayment() {
+    //     this.stripe.confirmCardSetup(
+    //         this.intentToken.client_secret, {
+    //             payment_method: {
+    //                 card: cardElement,
+    //                 billing_details: {name: this.customer.last_name}
+    //             }
+    //         })
     // }
-    //}
 
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['getProductsInCart'])), {}, {
