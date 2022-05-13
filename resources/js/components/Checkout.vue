@@ -221,13 +221,10 @@ export default {
 
         totalPrice(price) {
             return this.product.quantity * price
-
         },
 
         async processPayment() {
             this.paymentProcessing = true;
-
-
             const {paymentMethod, error} = await this.stripe.createPaymentMethod(
                 'card', this.cardElement, {
                     billing_details: {
@@ -242,7 +239,6 @@ export default {
                     }
                 }
             );
-
             if (error) {
                 this.paymentProcessing = false;
                 console.error(error);
@@ -255,14 +251,14 @@ export default {
                 axios.post('/api/purchase', this.customer)
                     .then((response) => {
                         this.paymentProcessing = false;
-                        console.log(response);
+                       // console.log(response);
                         this.$store.commit('updateOrder', response.data);
                         this.$store.dispatch('clearCart');
-                        this.$router.push({name: 'order.summary'});
+                        this.$router.push('/summary');
                     })
                     .catch((error) => {
                         this.paymentProcessing = false;
-                        console.error(error);
+                       // console.error(error);
                     });
             }
         },

@@ -31,6 +31,11 @@ const routes = [
     //     props: true,
     //
     // },
+    {
+        path: '/summary',
+        name: 'summary',
+        component: ()=>import('../components/Summary')
+    },
 
     {
         path: '/products/:id',

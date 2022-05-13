@@ -11,6 +11,7 @@ export default createStore({
         authenticated: false,
         products: [],
         cart: [],
+        order:[],
 
         total: 0,
         quantity: 0,
@@ -40,7 +41,7 @@ export default createStore({
             let item = state.cart.find(i => i.id === product.id)
             item.quantity++
 
-            console.log(item.quantity)
+           // console.log(item.quantity)
         },
         DECREMENT_PRODUCT_QTY(state, product) {
             let item = state.cart.find(i => i.id === product.id)
@@ -67,7 +68,6 @@ export default createStore({
             if (item) {
                 product.quantity++
 
-
             } else {
                 product.quantity = 1
                 state.cart.push(product)
@@ -75,10 +75,9 @@ export default createStore({
 
             // product.quantity = 1
             // state.cart.push(product);
-
         },
         REMOVE_PRODUCT: (state, product) => {
-            // state.cart.splice(index, 1);
+            // state.cart.splice(index, 1); => find product by id to delete correct product otherwise you delete wrong product
             let item = state.cart.find(i => i.id === product.id)
 
             if (item.quantity > 1) {
@@ -91,6 +90,9 @@ export default createStore({
         UPDATE_PRODUCT_ITEMS(state, payload) {
             state.products = payload
         },
+        UPDATE_CART(state, cart) {
+            state.cart = cart;
+        }
 
 
     },
@@ -133,21 +135,19 @@ export default createStore({
             context.commit('ADD_PRODUCT', product);
 
         },
-        currentProduct: (context, product) => {
-            context.commit('CURRENT_PRODUCT', product);
-        },
+        // currentProduct: (context, product) => {
+        //     context.commit('CURRENT_PRODUCT', product);
+        // },
         removeProduct: (context, index) => {
             context.commit('REMOVE_PRODUCT', index);
         },
-        // getProductItems({commit}) {
-        //     axios.get(`/api/products`)
-        //         .then((response) => {
-        //             commit('UPDATE_PRODUCT_ITEMS', response.data)
-        //         });
-        // },
+
         addToCart(context) {
             context.commit('ADD_TO_CART')
         },
+        clearCart({commit}) {
+            commit('UPDATE_CART', []);
+        }
 
     },
 

@@ -24056,19 +24056,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.customer.amount = amount * 100;
                   _this2.customer.cart = JSON.stringify(_this2.$store.state.cart);
                   axios.post('/api/purchase', _this2.customer).then(function (response) {
-                    _this2.paymentProcessing = false;
-                    console.log(response);
+                    _this2.paymentProcessing = false; // console.log(response);
 
                     _this2.$store.commit('updateOrder', response.data);
 
                     _this2.$store.dispatch('clearCart');
 
-                    _this2.$router.push({
-                      name: 'order.summary'
-                    });
+                    _this2.$router.push('/summary');
                   })["catch"](function (error) {
-                    _this2.paymentProcessing = false;
-                    console.error(error);
+                    _this2.paymentProcessing = false; // console.error(error);
                   });
                 }
 
@@ -25659,6 +25655,12 @@ var routes = [{
 //
 // },
 {
+  path: '/summary',
+  name: 'summary',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_Summary_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Summary */ "./resources/js/components/Summary.vue"));
+  }
+}, {
   path: '/products/:id',
   name: 'details',
   component: function component() {
@@ -25699,6 +25701,7 @@ __webpack_require__.r(__webpack_exports__);
     authenticated: false,
     products: [],
     cart: [],
+    order: [],
     total: 0,
     quantity: 0,
     apiClient: axios__WEBPACK_IMPORTED_MODULE_0___default().create({
@@ -25724,8 +25727,7 @@ __webpack_require__.r(__webpack_exports__);
       var item = state.cart.find(function (i) {
         return i.id === product.id;
       });
-      item.quantity++;
-      console.log(item.quantity);
+      item.quantity++; // console.log(item.quantity)
     },
     DECREMENT_PRODUCT_QTY: function DECREMENT_PRODUCT_QTY(state, product) {
       var item = state.cart.find(function (i) {
@@ -25761,7 +25763,7 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     REMOVE_PRODUCT: function REMOVE_PRODUCT(state, product) {
-      // state.cart.splice(index, 1);
+      // state.cart.splice(index, 1); => find product by id to delete correct product otherwise you delete wrong product
       var item = state.cart.find(function (i) {
         return i.id === product.id;
       });
@@ -25774,6 +25776,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     UPDATE_PRODUCT_ITEMS: function UPDATE_PRODUCT_ITEMS(state, payload) {
       state.products = payload;
+    },
+    UPDATE_CART: function UPDATE_CART(state, cart) {
+      state.cart = cart;
     }
   },
   actions: {
@@ -25815,20 +25820,18 @@ __webpack_require__.r(__webpack_exports__);
     addProduct: function addProduct(context, product) {
       context.commit('ADD_PRODUCT', product);
     },
-    currentProduct: function currentProduct(context, product) {
-      context.commit('CURRENT_PRODUCT', product);
-    },
+    // currentProduct: (context, product) => {
+    //     context.commit('CURRENT_PRODUCT', product);
+    // },
     removeProduct: function removeProduct(context, index) {
       context.commit('REMOVE_PRODUCT', index);
     },
-    // getProductItems({commit}) {
-    //     axios.get(`/api/products`)
-    //         .then((response) => {
-    //             commit('UPDATE_PRODUCT_ITEMS', response.data)
-    //         });
-    // },
     addToCart: function addToCart(context) {
       context.commit('ADD_TO_CART');
+    },
+    clearCart: function clearCart(_ref2) {
+      var commit = _ref2.commit;
+      commit('UPDATE_CART', []);
     }
   },
   getters: {
@@ -54823,7 +54826,7 @@ module.exports = JSON.parse('{"name":"@vue-stripe/vue-stripe","version":"4.4.2",
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if (chunkId === "details") return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_Summary_vue":1,"details":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
