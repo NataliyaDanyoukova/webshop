@@ -19,6 +19,11 @@ class UserController extends Controller
 
     public function purchase(Request $request)
     {
+        $user = auth()->user();
+
+
+
+
 
         $user = User::firstOrCreate(
             [
@@ -33,6 +38,9 @@ class UserController extends Controller
                 'zip_code' => $request->input('zip_code')
             ]
         );
+        if($user->stripe_id === null){
+            $user->createOrGetStripeCustomer();
+        }
 
         try {
             $payment = $user->charge(
@@ -40,22 +48,22 @@ class UserController extends Controller
                 $request->input('payment_method_id')
             );
 
-            $payment = $payment->asStripePaymentIntent();
-
-            $order = $user->orders()
-                ->create([
-                    //'transaction_id' => $payment->charges->data[0]->id,
-                    'total_amount' => $payment->charges->data[0]->amount
-                ]);
-
-            foreach (json_decode($request->input('cart'), true) as $item) {
-                $order->products()
-                    ->attach($item['id'], ['quantity' => $item['quantity']]);
-            }
-
-            $order->load('products');
-            return $order;
-
+           $payment = $payment->asStripePaymentIntent();
+//
+//            $order = $user->orders()
+//                ->create([
+//                    //'transaction_id' => $payment->charges->data[0]->id,
+//                    'total_amount' => $payment->charges->data[0]->amount
+//                ]);
+//
+//            foreach (json_decode($request->input('cart'), true) as $item) {
+//                $order->products()
+//                    ->attach($item['id'], ['quantity' => $item['quantity']]);
+//            }
+//
+//            $order->load('products');
+           // return $order;
+return $payment;
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
