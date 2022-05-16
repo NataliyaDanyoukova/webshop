@@ -56,10 +56,7 @@
 {{--                    </router-link>--}}
 
                 </nav>
-{{--       {{ counterCart }}        --}}
-{{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
-{{--                    {{ config('app.name', 'shop') }}--}}
-{{--                </a>--}}
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -112,11 +109,11 @@
             </div>
         </nav>
 
-
+    <div>app page</div>
 
 
     <main class="py-4">
-        <p>app.blade</p>
+
         @yield('content')
     </main>
 
