@@ -21,10 +21,7 @@ class address extends Model
         'street_number'
     ];
 
-    public function addressType(): BelongsToMany
-    {
-        return $this->belongsToMany(addressType::class);
-    }
+
 
     public function user(): HasOne
     {
