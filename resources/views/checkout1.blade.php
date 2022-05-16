@@ -7,22 +7,23 @@
                 <div class="card">
                     <div class="card-header">{{ __('Checkout') }}</div>
 
-                    <div class="card-body">
-                        <form action="{{ route('pay') }}" method="POST" id="payment-form">
-                            @csrf
-                            <input type="hidden" name="payment_method" id="payment-method" value="" />
-                            <input type="hidden" name="order_id" value="{{ $order->id }}" />
-                            <div class="col-md-6">
-                                <div id="card-element"></div>
-                                <button type="button" class="mt-4 btn btn-primary" id="payment-button">
-                                    Pay ${{ round($order->product->price / 100, 2) }}
-                                </button>
-                                @if (session('error'))
-                                    <div class="alert alert-danger mt-4">{{ session('error') }}</div>
-                                @endif
-                                <div class="alert alert-danger mt-4 d-none" id="card-error"></div>
-                            </div>
-                        </form>
+                    <checkout :user="{{ Auth::user() }}"></checkout>
+{{--                    <div class="card-body">--}}
+{{--                        <form action="{{ route('pay') }}" method="POST" id="payment-form">--}}
+{{--                            @csrf--}}
+{{--                            <input type="hidden" name="payment_method" id="payment-method" value="" />--}}
+{{--                            <input type="hidden" name="order_id" value="{{ $order->id }}" />--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <div id="card-element"></div>--}}
+{{--                                <button type="button" class="mt-4 btn btn-primary" id="payment-button">--}}
+{{--                                    Pay ${{ round($order->product->price / 100, 2) }}--}}
+{{--                                </button>--}}
+{{--                                @if (session('error'))--}}
+{{--                                    <div class="alert alert-danger mt-4">{{ session('error') }}</div>--}}
+{{--                                @endif--}}
+{{--                                <div class="alert alert-danger mt-4 d-none" id="card-error"></div>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
                     </div>
                 </div>
             </div>
