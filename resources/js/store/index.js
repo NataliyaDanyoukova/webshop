@@ -1,5 +1,6 @@
 import {createStore, mapGetters} from 'vuex'
 import axios from 'axios'
+import {runInContext as apiClient} from "lodash";
 
 // function updateLocalStorage(cart) {
 //     localStorage.setItem('cart', JSON.stringify(cart))
@@ -7,6 +8,7 @@ import axios from 'axios'
 
 export default createStore({
     state: {
+
         user: {},
         authenticated: false,
         products: [],
@@ -24,8 +26,6 @@ export default createStore({
                 'Content-Type': 'application/json'
             }
         })
-
-
     },
     mutations: {
         /*authentication*/
@@ -54,14 +54,10 @@ export default createStore({
 
             }
         },
-
-
         GET_QUANTITY: (state, qty) => {
             state.quantity = qty
         },
-        // CURRENT_PRODUCT: (state, product) => {
-        //     state.currentProduct = product;
-        // },
+
         ADD_PRODUCT: (state, product) => {
             // check if product exist in cart
             let item = state.cart.find(i => i.id === product.id)
@@ -77,7 +73,7 @@ export default createStore({
             // state.cart.push(product);
         },
         REMOVE_PRODUCT: (state, product) => {
-            // state.cart.splice(index, 1); => find product by id to delete correct product otherwise you delete wrong product
+            // state.cart.splice(index, 1); => find product by id to delete correct product otherwise you delete wrong product(by index)
             let item = state.cart.find(i => i.id === product.id)
 
             if (item.quantity > 1) {
@@ -92,19 +88,37 @@ export default createStore({
         },
         UPDATE_CART(state, cart) {
             state.cart = cart;
-        }
+        },
+        UPDATE_ORDER(state, order) {
+            state.order = order;
+        },
 
 
     },
 
     actions: {
-        // async login({ commit }, user) {
-        //     await axios.get('http://localhost/sanctum/csrf-cookie');
-        //     let { data } = await axios.post('http://localhost/api/login', user);
-        //     commit('SET_USER', data)
-        //
-        //     sessionStorage.user = JSON.stringify(data);
-        // },
+        async Login2() {
+            try {
+                await axios.get('/sanctum/csrf-cookie')
+
+                await axios.post('/login', this.form)
+                    .then(response => {
+                        this.getUser()
+                       // console.log(response.data)
+                    })
+
+            } catch (error) {
+                this.errors = error.response.data.errors
+            }
+        },
+        getUser() {
+            axios.get('/api/user').then(response => {
+                this.user = response.data
+
+                console.log(this.user)
+            })},
+
+
         /*authentication */
         // getUser({commit}) {
         //     return axios
@@ -173,9 +187,9 @@ export default createStore({
             return total
         },
 
-        getCurrentProduct(state) {
-            return state.currentProduct
-        },
+        // getCurrentProduct(state) {
+        //     return state.currentProduct
+        // },
         getProductsInCart(state) {
             return state.cart
         },
