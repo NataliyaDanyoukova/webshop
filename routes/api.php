@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\StripeController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -24,10 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 //
 //Route::group(['middleware' => 'auth:sanctum'], function(){
-
+//    Route::post('/purchase', [OrderController::class, 'purchase']);
+//
 // });
 
-Route::post('/purchase', [UserController::class, 'purchase']);
+Route::post('/purchase', [OrderController::class, 'purchase'] )->middleware('auth');
 
 
 
