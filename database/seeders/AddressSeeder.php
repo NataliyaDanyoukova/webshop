@@ -16,7 +16,6 @@ class AddressSeeder extends Seeder
     public function run()
     {
         DB::table('addresses')->insert([
-            'address_type_id' => 1,
             'country' => 'België',
             'city' => 'Gent',
             'postal_code' => '9000',
@@ -25,7 +24,6 @@ class AddressSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('addresses')->insert([
-            'address_type_id' => 2,
             'country' => 'België',
             'city' => 'Brugge',
             'postal_code' => '8000',
@@ -34,7 +32,6 @@ class AddressSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('addresses')->insert([
-            'address_type_id' => 2,
             'country' => 'België',
             'city' => 'De Haan',
             'postal_code' => '8420',
@@ -43,7 +40,6 @@ class AddressSeeder extends Seeder
             'created_at' => date('Y-m-d H:i:s')
         ]);
         DB::table('addresses')->insert([
-            'address_type_id' => 1,
             'country' => 'België',
             'city' => 'De Haan',
             'postal_code' => '8420',

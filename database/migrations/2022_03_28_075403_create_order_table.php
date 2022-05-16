@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id');
-            $table->foreignId('billing_address_id');
-            $table->foreignId('shipping_address_id');
+            $table->foreignId('billing_address_id')->nullable();
+            $table->foreignId('shipping_address_id')->nullable();
             $table->double('total_amount');
-            $table->double('vat_amount');
-            $table->dateTime('date_time');
+            $table->double('vat_amount')->nullable();
+            $table->dateTime('date_time')->nullable();
             $table->timestamps();
         });
     }
