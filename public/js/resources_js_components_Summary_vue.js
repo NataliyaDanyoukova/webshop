@@ -80,6 +80,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     order: function order() {
+      console.log(this.$store.state.order);
       return this.$store.state.order;
     },
     orderQuantity: function orderQuantity() {

@@ -4,7 +4,6 @@
 
         <div class="container single_product_container" v-if="item">
 
-            {{ this.item }}
             <div class="row gy-5">
                 <div class="col-lg-7">
 

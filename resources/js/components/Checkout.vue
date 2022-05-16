@@ -10,7 +10,7 @@
                         <span class="text-muted">Your cart</span>
                         <span class="badge badge-secondary badge-pill">{{ cartQuantity }}</span>
                     </h4>
-
+                    <h4>{{ currentUser.email }}</h4>
 
                     <ul class="list-group mb-3">
                         <li v-for="product in getProductsInCart" :key="product"
@@ -172,7 +172,11 @@ import {StripeCheckout} from '@vue-stripe/vue-stripe';
 export default {
     name: "Checkout",
 
-    props: ['product'],
+    props: {
+        loggedUser: {Object}
+            ['product']
+
+    },
     components: {
         StripeCheckout, loadStripe
     },
@@ -188,13 +192,26 @@ export default {
                 state: '',
                 zip_code: ''
             },
+            currentUser: {},
+            token: localStorage.getItem('token'),
             paymentProcessing: false,
             stripe: {},
             card: '',
             publishableKey: 'pk_test_51KxTSxDGN6wj7mnxAmzrDDXX9oyVvfYeae6tKyxrUYUihbHyTW2BBUetYlaflEAJLfv42EWamGLP2yHgSjahl2X000EM1L06q5'
         }
     },
+    created() {
+
+    },
     async mounted() {
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+        axios.get('/user').then((response) => {
+
+            this.currentUser = response.data
+            console.log(response.data)
+        }).catch((errors) => {
+            console.log(errors)
+        });
 
         /* load stripe element from stripe.js using publishable api key */
         this.stripe = await loadStripe(this.publishableKey);
@@ -212,7 +229,6 @@ export default {
     methods: {
 
         cartLineTotal(item) {
-
             // return console.log(item);
             let amount = item.price * item.quantity;
             return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
@@ -248,17 +264,18 @@ export default {
                 let amount = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
                 this.customer.amount = amount * 100;
                 this.customer.cart = JSON.stringify(this.$store.state.cart);
+                // this.customer.order = JSON.stringify(this.$store.state.cart);
                 axios.post('/api/purchase', this.customer)
                     .then((response) => {
                         this.paymentProcessing = false;
-                       // console.log(response);
-                        this.$store.commit('updateOrder', response.data);
+                        // console.log(response);
+                        this.$store.commit('UPDATE_ORDER', this.$store.state.cart);
                         this.$store.dispatch('clearCart');
                         this.$router.push('/summary');
                     })
                     .catch((error) => {
                         this.paymentProcessing = false;
-                       // console.error(error);
+                        console.error(error);
                     });
             }
         },
@@ -275,31 +292,28 @@ export default {
         // }
 
 
-},
-computed: {
+    },
+    computed: {
 
-...
-    mapGetters([
-        'getProductsInCart',
-    ]),
-        cart()
-    {
-        return this.$store.state.cart;
-    }
-,
-    cartQuantity()
-    {
-        return this.$store.state.cart.reduce((acc, item) => acc + item.quantity, 0);
-    }
-,
-    cartTotal()
-    {
-        let amount = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-        return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
-    }
-,
+        ...
+            mapGetters([
+                'getProductsInCart',
+            ]),
+        cart() {
+            return this.$store.state.cart;
+        }
+        ,
+        cartQuantity() {
+            return this.$store.state.cart.reduce((acc, item) => acc + item.quantity, 0);
+        }
+        ,
+        cartTotal() {
+            let amount = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
+        }
+        ,
 
-}
+    }
 }
 </script>
 
