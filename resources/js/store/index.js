@@ -9,11 +9,11 @@ import {runInContext as apiClient} from "lodash";
 export default createStore({
     state: {
 
-        user: {},
+        user: false,
         authenticated: false,
         products: [],
         cart: [],
-        order:[],
+        order: [],
 
         total: 0,
         quantity: 0,
@@ -28,6 +28,10 @@ export default createStore({
         })
     },
     mutations: {
+        updateUser(state, data) {
+            state.user = data
+        },
+
         /*authentication*/
         SET_AUTHENTICATED(state, value) {
             state.authenticated = value;
@@ -41,7 +45,7 @@ export default createStore({
             let item = state.cart.find(i => i.id === product.id)
             item.quantity++
 
-           // console.log(item.quantity)
+            // console.log(item.quantity)
         },
         DECREMENT_PRODUCT_QTY(state, product) {
             let item = state.cart.find(i => i.id === product.id)
@@ -104,7 +108,7 @@ export default createStore({
                 await axios.post('/login', this.form)
                     .then(response => {
                         this.getUser()
-                       // console.log(response.data)
+                        // console.log(response.data)
                     })
 
             } catch (error) {
@@ -116,7 +120,8 @@ export default createStore({
                 this.user = response.data
 
                 console.log(this.user)
-            })},
+            })
+        },
 
 
         /*authentication */

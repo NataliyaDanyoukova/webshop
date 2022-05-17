@@ -6,6 +6,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+{{--    @if (Auth::check())--}}
+{{--        <meta name="user" content="{{ Auth::user() }}">--}}
+{{--    @endif--}}
 
     <title>{{ config('app.name', 'Hair&Beauty') }}</title>
 

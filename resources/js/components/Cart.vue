@@ -39,8 +39,9 @@
 
                 </div>
             </div>
-            <router-link to="/checkout">
-                <button class="btn-danger col-12 m-2">Checkout</button>
+
+            <router-link :to="{name:'checkout', params: {user: user}}">
+                <button class="btn-danger col-12 m-2" v-if="getLoggedInUser !== null"  >Checkout</button>
             </router-link>
         </div>
     </div>
@@ -59,12 +60,12 @@ export default {
     name: "Cart.vue",
     components: {Checkout},
 
-    props: ['product'],
+    props: ['product', 'user'],
 
     computed: {
 
         ...mapGetters([
-            'getProductsInCart',
+            'getProductsInCart'
 
         ]),
         vatAmount() {
@@ -79,11 +80,19 @@ export default {
         },
         cartTotal() {
             let amount = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-            //amount = (amount / 100);
+
             return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
+        },
+        getLoggedInUser(){
+            let user = this.$store.getters.getUser
+            console.log(user)
         }
     },
-    methods: {}
+    methods: {},
+    created() {
+        //this.$store.commit('updateUser', this.user)
+
+    }
 
 
 }

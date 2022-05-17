@@ -10,7 +10,7 @@
                         <span class="text-muted">Your cart</span>
                         <span class="badge badge-secondary badge-pill">{{ cartQuantity }}</span>
                     </h4>
-                    <h4>{{ currentUser.email }}</h4>
+
 
                     <ul class="list-group mb-3">
                         <li v-for="product in getProductsInCart" :key="product"
@@ -45,6 +45,8 @@
                         <div class="p-2 w-1/3">
                             <div class="relative">
                                 <label for="first_name" class="leading-7 text-sm text-gray-600">First Name</label>
+                                <!--                                <input type="text" v-if="getLoggedInUser !== null" v-for="currentUser in getLoggedInUser" v-model="currentUser">-->
+
                                 <input
                                     type="text"
                                     id="first_name"
@@ -71,6 +73,9 @@
                         <div class="p-2 w-1/3">
                             <div class="relative">
                                 <label for="email" class="leading-7 text-sm text-gray-600">Email Address</label>
+                                <input type="text" v-if="getLoggedInUser !== null"
+                                       v-for="currentUser in getLoggedInUser" key="currentUser" v-model="currentUser.email">
+
                                 <input
                                     type="email"
                                     id="email"
@@ -172,17 +177,15 @@ import {StripeCheckout} from '@vue-stripe/vue-stripe';
 export default {
     name: "Checkout",
 
-    props: {
-        loggedUser: {Object}
-            ['product']
+    props: ['product', 'user']
 
-    },
+    ,
     components: {
         StripeCheckout, loadStripe
     },
     data() {
         return {
-            fullname: '',
+
             customer: {
                 first_name: '',
                 last_name: '',
@@ -192,8 +195,8 @@ export default {
                 state: '',
                 zip_code: ''
             },
-            currentUser: {},
-            token: localStorage.getItem('token'),
+
+
             paymentProcessing: false,
             stripe: {},
             card: '',
@@ -201,17 +204,9 @@ export default {
         }
     },
     created() {
-
     },
     async mounted() {
-        window.axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-        axios.get('/user').then((response) => {
 
-            this.currentUser = response.data
-            console.log(response.data)
-        }).catch((errors) => {
-            console.log(errors)
-        });
 
         /* load stripe element from stripe.js using publishable api key */
         this.stripe = await loadStripe(this.publishableKey);
@@ -227,12 +222,10 @@ export default {
     },
 
     methods: {
-
         cartLineTotal(item) {
             // return console.log(item);
             let amount = item.price * item.quantity;
-            return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
-
+            return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'})
         },
 
         totalPrice(price) {
@@ -312,8 +305,16 @@ export default {
             return amount.toLocaleString('EUR', {style: 'currency', currency: 'EUR'});
         }
         ,
+        getLoggedInUser() {
+            let user = this.$store.getters.getUser
+            console.log(user)
+            if (user) {
 
+
+        }
     }
+
+}
 }
 </script>
 

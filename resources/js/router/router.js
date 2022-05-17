@@ -15,12 +15,14 @@ const routes = [
     {
         path: '/checkout',
         name: 'checkout',
-        component: Checkout
+        component: Checkout,
+        props: true
     },
     {
         path: '/cart',
         name: 'cart',
-        component: Cart
+        component: Cart,
+        props: true
     },
 
 

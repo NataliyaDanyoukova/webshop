@@ -96,8 +96,14 @@
 <div>
 <div>welcome page</div>
     <div id="app">
+
         <router-link to="/"></router-link>
-        <cart-icon class="justify-content-center" ></cart-icon>
+        @if(Auth::check())
+            <cart-icon class="justify-content-center" :user="{{ Auth::user() }}" ></cart-icon>
+        @else
+            <cart-icon :user="false"></cart-icon>
+        @endif
+
         <router-view></router-view>
 
 {{--        <router-link to="/cart" >--}}

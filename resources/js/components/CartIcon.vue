@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{name: 'cart'}" :authUser="authUser">
+    <router-link :to="{name: 'cart', params:{user: user}}" >
         <i class="fa fa-shopping-cart" aria-hidden="true">Cart</i>
 <!--        <span id="checkout_items" class="checkout_items">{{ $store.state.cart.length }}</span>-->
         <span id="checkout_items" class="checkout_items">{{ cartQuantity }}</span>
@@ -12,8 +12,12 @@
 <script>
 export default {
     name: "CartIcon",
-    props:{
-        authUser:['authUser']
+    props:
+        ['user']
+    ,
+    created() {
+        this.$store.commit('updateUser', this.user)
+        console.log(this.user)
     },
     computed: {
         counterCart() {
